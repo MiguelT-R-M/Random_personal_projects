@@ -1,4 +1,5 @@
 // Code to use with macrodroid to acertain the precise position of my phone
+// Baby's first data analysis program:
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -64,10 +65,15 @@ int main(void){
     }
     printf("Fim dos testes\n");
     printf("\n");
-    Avg_locx = Sum_locx/(Loc_size-1); Avg_locy = Sum_locy/(Loc_size-1);
 
-    printf("Média de X: %.7Lf, Média de Y: %.7Lf\n\n", Avg_locx, Avg_locy);
-    printf("%.7Lf, %.7Lf\n\n", Avg_locx, Avg_locy);
+    if(Loc_size > 1){
+        Avg_locx = Sum_locx/(Loc_size-1); Avg_locy = Sum_locy/(Loc_size-1);
+
+        printf("Média de X: %.7Lf, Média de Y: %.7Lf\n\n", Avg_locx, Avg_locy);
+        printf("%.7Lf, %.7Lf\n\n", Avg_locx, Avg_locy);
+    }else{
+        printf("Nenhuma localização válida, FIM DO CÓDIGO.\n");
+    }
 
     free(Loc_X); free(Loc_Y); fclose(locale);
     return 0;
