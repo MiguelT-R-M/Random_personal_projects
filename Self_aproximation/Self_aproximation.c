@@ -17,12 +17,12 @@ int main(void){
 
     int Loc_size = 1, Capacity = 10;
 
-    long double Choices[5] = {0}, Current[4] = {0};
-    printf("Escolha o ano desejado: "); scanf("%Lf", &Choices[0]);
-    printf("Escolha o mês desejado: "); scanf("%Lf", &Choices[1]);
-    printf("Escolha o dia desejado: "); scanf("%Lf", &Choices[2]);
-    printf("Escolha a hora inicial: "); scanf("%Lf", &Choices[3]);
-    printf("Escolha a hora final: "); scanf("%Lf", &Choices[4]);
+    int Choices[5] = {0}, Current[4] = {0};
+    printf("Escolha o ano desejado: "); scanf("%d", &Choices[0]);
+    printf("Escolha o mês desejado: "); scanf("%d", &Choices[1]);
+    printf("Escolha o dia desejado: "); scanf("%d", &Choices[2]);
+    printf("Escolha a hora inicial: "); scanf("%d", &Choices[3]);
+    printf("Escolha a hora final: "); scanf("%d", &Choices[4]);
 
     FILE *locale = fopen("locale.txt", "r");
     checkNull(locale);
@@ -32,18 +32,20 @@ int main(void){
     checkNull(Loc_X); checkNull(Loc_Y);
 
     char BUFFER[100];
-    char *garbage;
+    // char *garbage;
 
     while(fgets(BUFFER, 100, locale)){
         
-        Current[0] = strtold(BUFFER + 6, &garbage);
-        Current[1] = strtold(garbage + 1, &garbage);
-        Current[2] = strtold(garbage + 1, &garbage);
-        Current[3] = strtold(garbage + 1, &garbage);
-        Loc_X[Loc_size-1] = strtold(garbage + 15, &garbage);
-        Loc_Y[Loc_size-1] = strtold(garbage + 1, &garbage);
+        int found = sscanf(BUFFER, " hora: %d-%d-%d %d:%*d:%*d, Local: %Lf,%Lf", &Current[0], &Current[1], &Current[2], &Current[3], &Loc_X[Loc_size-1], &Loc_Y[Loc_size-1]);
 
-        if(isValid(Choices, Current)){
+        // Current[0] = strtold(BUFFER + 6, &garbage); Old method, good to maintain it here for knowledge and documentation.
+        // Current[1] = strtold(garbage + 1, &garbage);
+        // Current[2] = strtold(garbage + 1, &garbage);
+        // Current[3] = strtold(garbage + 1, &garbage);
+        // Loc_X[Loc_size-1] = strtold(garbage + 15, &garbage);
+        // Loc_Y[Loc_size-1] = strtold(garbage + 1, &garbage);
+
+        if((found == 6)&&(isValid(Choices, Current))){
             Sum_locx+=Loc_X[Loc_size-1]; Sum_locy+=Loc_Y[Loc_size-1];
 
             printf("%.7Lf, %.7Lf\n", Loc_X[Loc_size-1], Loc_Y[Loc_size-1]);
